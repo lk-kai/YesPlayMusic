@@ -7,6 +7,7 @@ function resolve(dir) {
 module.exports = {
   // 生产环境打包不输出 map
   productionSourceMap: false,
+  lintOnSave: false,
   devServer: {
     disableHostCheck: true,
     port: process.env.DEV_SERVER_PORT || 8080,
@@ -162,7 +163,7 @@ module.exports = {
       // 主线程的配置文件
       chainWebpackMainProcess: config => {
         config.plugin('define').tap(args => {
-          args[0]['IS_ELECTRON'] = true;
+          args[0]['IS_ELECTRON'] = false;
           return args;
         });
         config.resolve.alias.set(
@@ -176,7 +177,7 @@ module.exports = {
         // Chain webpack config for electron renderer process only
         // The following example will set IS_ELECTRON to true in your app
         config.plugin('define').tap(args => {
-          args[0]['IS_ELECTRON'] = true;
+          args[0]['IS_ELECTRON'] = false;
           return args;
         });
       },

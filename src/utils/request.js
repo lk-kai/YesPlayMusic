@@ -2,17 +2,8 @@ import router from '@/router';
 import { doLogout, getCookie } from '@/utils/auth';
 import axios from 'axios';
 
-let baseURL = '';
+let baseURL = '/api';
 // Web 和 Electron 跑在不同端口避免同时启动时冲突
-if (process.env.IS_ELECTRON) {
-  if (process.env.NODE_ENV === 'production') {
-    baseURL = process.env.VUE_APP_ELECTRON_API_URL;
-  } else {
-    baseURL = process.env.VUE_APP_ELECTRON_API_URL_DEV;
-  }
-} else {
-  baseURL = process.env.VUE_APP_NETEASE_API_URL;
-}
 
 const service = axios.create({
   baseURL,
@@ -56,12 +47,10 @@ service.interceptors.response.use(
     return res;
   },
   async error => {
-    /** @type {import('axios').AxiosResponse | null} */
-    const response = error.response;
-    const data = response.data;
+    const data = error.response.data;
 
     if (
-      response &&
+      error.response &&
       typeof data === 'object' &&
       data.code === 301 &&
       data.msg === '需要登录'
