@@ -2,7 +2,7 @@ import router from '@/router';
 import { doLogout, getCookie } from '@/utils/auth';
 import axios from 'axios';
 
-let baseURL = '/api';
+let baseURL = 'https://netease-cloud-music-api-sigma-sable.vercel.app';
 // Web 和 Electron 跑在不同端口避免同时启动时冲突
 
 const service = axios.create({
